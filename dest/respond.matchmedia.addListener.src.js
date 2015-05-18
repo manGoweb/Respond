@@ -1,5 +1,5 @@
 /*! Respond.js v1.4.2: min/max-width media query polyfill
- * Copyright 2014 Scott Jehl
+ * Copyright 2015 Scott Jehl
  * Licensed under MIT
  * http://j.mp/respondjs */
 
@@ -275,8 +275,18 @@
   ripCSS();
   respond.update = ripCSS;
   respond.getEmValue = getEmValue;
+  respond.currentHeight = 0;
+  respond.currentWidth = 0;
   function callMedia() {
-    applyMedia(true);
+    var currentHeight = 0;
+    var currentWidth = 0;
+    currentHeight = window.innerHeight || document.documentElement.clientHeight;
+    currentWidth = window.innerWidth || document.documentElement.clientWidth;
+    if (respond.currentHeight != currentHeight || respond.currentWidth != currentWidth) {
+      respond.currentWidth = currentWidth;
+      respond.currentHeight = currentHeight;
+      applyMedia(true);
+    }
   }
   if (w.addEventListener) {
     w.addEventListener("resize", callMedia, false);
